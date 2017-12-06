@@ -1,5 +1,5 @@
 NAME="openh264"
-VERSION=1.6.0
+VERSION=1.7.0
 RELEASE=1
 CATEGORY="Libs"
 SUMMARY="H.264 codec for WebRTC"
@@ -7,11 +7,11 @@ DESCRIPTION="OpenH264 is a codec library which supports H.264 encoding and
 decoding. It is suitable for use in real time applications such as WebRTC."
 HOMEPAGE="http://www.openh264.org/"
 SRC_URI="https://github.com/cisco/openh264/archive/v${VERSION}/openh264-${VERSION}.tar.gz"
-PATCH_URI="1.6.0-platform-cygwin.patch"
+PATCH_URI="1.7.0-platform-cygwin.patch"
 
-PKG_NAMES="libopenh264_3 libopenh264-devel"
-libopenh264_3_CONTENTS="
-	usr/bin/cygopenh264-3.dll
+PKG_NAMES="libopenh264_4 libopenh264-devel"
+libopenh264_4_CONTENTS="
+	usr/bin/cygopenh264-4.dll
 	usr/share/doc/
 "
 libopenh264_devel_CONTENTS="
@@ -24,6 +24,12 @@ src_compile() {
 	lndirs
 	cd ${B}
 	cygmake CFLAGS_OPT="${CXXFLAGS}" PREFIX=/usr
+}
+
+src_test() {
+	cd ${B}
+	[ -d gtest ] || cygmake gtest-bootstrap
+	cygtest
 }
 
 src_install() {
